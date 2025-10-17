@@ -1,3 +1,2 @@
-# url-images-gallery-test
-
-Generated application for url-images-gallery-test
+bash
+    git clone https://github.com/suganya888/url-images-gallery-test.git
