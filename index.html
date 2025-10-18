@@ -3,49 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Gallery</title>
-    <!-- Bootstrap CSS CDN -->
+    <title>Photo Gallery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        /* Custom styles for consistent image sizing in cards */
         .card-img-top {
             width: 100%;
-            height: 250px; /* Fixed height for consistent card appearance */
-            object-fit: cover; /* Ensures images cover the area without distortion */
+            height: 200px;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 id="gallery-title" class="text-center mb-4">Photo Gallery</h1>
-        <div class="row justify-content-center">
-            <!-- Image Card 1 -->
+    <div class="container mt-4">
+        <h1 id="gallery-title" class="mb-4 text-center">Photo Gallery</h1>
+        <div class="row">
             <div class="col-md-4 mb-4">
-                <div class="card" id="image-1">
-                    <!-- Image will be inserted here by JavaScript -->
+                <div class="card h-100">
+                    <img src="" class="card-img-top" alt="Gallery Image 1" id="image-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Image 1</h5>
+                        <p class="card-text text-muted small">Loaded from URL parameter or default.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Image Card 2 -->
             <div class="col-md-4 mb-4">
-                <div class="card" id="image-2">
-                    <!-- Image will be inserted here by JavaScript -->
+                <div class="card h-100">
+                    <img src="" class="card-img-top" alt="Gallery Image 2" id="image-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Image 2</h5>
+                        <p class="card-text text-muted small">Loaded from URL parameter or default.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Image Card 3 -->
             <div class="col-md-4 mb-4">
-                <div class="card" id="image-3">
-                    <!-- Image will be inserted here by JavaScript -->
+                <div class="card h-100">
+                    <img src="" class="card-img-top" alt="Gallery Image 3" id="image-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Image 3</h5>
+                        <p class="card-text text-muted small">Loaded from URL parameter or default.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS CDN (bundle with Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Default image URLs to use if no query parameters are provided
             const defaultImages = [
                 "https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=",
                 "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg",
@@ -53,39 +58,19 @@
             ];
 
             const urlParams = new URLSearchParams(window.location.search);
-            const imagesToDisplay = [];
 
-            // Iterate through expected image parameters (img1, img2, img3)
             for (let i = 1; i <= 3; i++) {
-                const paramName = `img${i}`;
-                let imageUrl = urlParams.get(paramName);
-
-                // Use the URL from query parameter if available and not empty, otherwise use default
-                if (imageUrl && imageUrl.trim().length > 0) {
-                    imagesToDisplay.push(imageUrl);
-                } else {
-                    imagesToDisplay.push(defaultImages[i - 1]);
+                const imgElement = document.getElementById(`image-${i}`);
+                if (imgElement) {
+                    const paramName = `img${i}`;
+                    const imageUrl = urlParams.get(paramName);
+                    if (imageUrl && imageUrl.length > 0) {
+                        imgElement.src = imageUrl;
+                    } else {
+                        imgElement.src = defaultImages[i - 1];
+                    }
                 }
             }
-
-            // Populate the image cards with determined image sources
-            imagesToDisplay.forEach((src, index) => {
-                const cardId = `image-${index + 1}`;
-                const cardElement = document.getElementById(cardId);
-
-                if (cardElement) {
-                    // Create an <img> element if it doesn't already exist within the card
-                    let imgElement = cardElement.querySelector('img');
-                    if (!imgElement) {
-                        imgElement = document.createElement('img');
-                        imgElement.classList.add('card-img-top', 'img-fluid'); // Add Bootstrap classes for styling
-                        imgElement.alt = `Gallery Image ${index + 1}`; // Add alt text for accessibility
-                        cardElement.appendChild(imgElement);
-                    }
-                    // Set the image source
-                    imgElement.src = src;
-                }
-            });
         });
     </script>
 </body>
